@@ -1,0 +1,49 @@
+plugins {
+    id 'org.springframework.boot' version '2.6.2'
+    id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+    id 'java'
+    id "com.diffplug.spotless" version "5.17.0"
+    id 'idea'
+}
+
+apply from: "${rootDir}/gradle/static-code-analysis.gradle"
+
+group = 'com.shankhadeepghoshal'
+version = '1.0'
+sourceCompatibility = '11'
+
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
+idea {
+    module {
+        downloadJavadoc = true
+        downloadSources = true
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+ext {
+    awsSqsClientVerson = "2.17.99"
+    awsSdkBomVersion = "2.15.0"
+}
+
+dependencies {
+    implementation platform("software.amazon.awssdk:bom:${awsSdkBomVersion}")
+    implementation ("software.amazon.awssdk:aws-core",
+            "software.amazon.awssdk:sqs")
+    implementation 'org.springframework.boot:spring-boot-starter'
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+}
+
+test {
+    useJUnitPlatform()
+}

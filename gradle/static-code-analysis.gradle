@@ -1,0 +1,37 @@
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+
+    apply plugin: 'pmd'
+
+   pmd {
+        toolVersion = "6.39.0"
+        ignoreFailures = false
+        ruleSetFiles = files("${rootDir}/pmd-ruleset.xml")
+        ruleSets = []
+        rulesMinimumPriority = 3
+    }
+
+    tasks.withType(Pmd) {
+        reports {
+            xml.enabled(false)
+            html.enabled(true)
+        }
+    }
+
+    spotless {
+//        ratchetFrom 'origin/master'
+        java {
+            importOrder('java', 'javax', 'io.shankhadeepghoshal.springbootawssqslocalstackdemo', '')
+            removeUnusedImports()
+            trimTrailingWhitespace()
+            indentWithTabs(1)
+            endWithNewline()
+            googleJavaFormat('1.11.0')
+                    .aosp()
+                    .reflowLongStrings()
+                    .groupArtifact('com.google.googlejavaformat:google-java-format')
+        }
+    }
+}
