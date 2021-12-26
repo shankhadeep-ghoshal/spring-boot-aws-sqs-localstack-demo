@@ -30,12 +30,12 @@ public class FooQProcessor {
 
     ObjectMapper objectMapper;
 
-    @Scheduled(fixedRate = 1L, timeUnit = TimeUnit.SECONDS)
+    @Scheduled(fixedRate = 100L)
     public void sendMessage() throws JsonProcessingException {
         messageSender.messageResponse(objectMapper.writeValueAsString(supplyPayload.get()));
     }
 
-    @Scheduled(fixedRate = 1, initialDelay = 0)
+    @Scheduled(fixedRate = 1L, initialDelay = 0L)
     public void processQueueMessage() {
         final var messages = supplyMessageResponse.get().messages();
         if (null != messages && !messages.isEmpty()) {

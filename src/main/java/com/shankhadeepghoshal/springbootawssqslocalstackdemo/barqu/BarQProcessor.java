@@ -5,7 +5,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.shankhadeepghoshal.springbootawssqslocalstackdemo.Payload;
 import com.shankhadeepghoshal.springbootawssqslocalstackdemo.Payload1;
 import com.shankhadeepghoshal.springbootawssqslocalstackdemo.QueueMessageSender;
-import java.util.concurrent.TimeUnit;
 import java.util.function.Supplier;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -31,12 +30,12 @@ public class BarQProcessor {
 
     ObjectMapper objectMapper;
 
-    @Scheduled(fixedRate = 1L, timeUnit = TimeUnit.SECONDS)
+    @Scheduled(fixedRate = 100L)
     public void sendMessage() throws JsonProcessingException {
         messageSender.messageResponse(objectMapper.writeValueAsString(supplyPayload.get()));
     }
 
-    @Scheduled(fixedRate = 1, initialDelay = 0)
+    @Scheduled(fixedRate = 1L, initialDelay = 0L)
     public void processQueueMessage() {
         final var messages = supplyMessageResponse.get().messages();
         if (null != messages && !messages.isEmpty()) {
