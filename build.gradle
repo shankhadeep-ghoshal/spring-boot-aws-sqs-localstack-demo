@@ -1,3 +1,13 @@
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath("io.spring.gradle:dependency-management-plugin:1.0.10.RELEASE")
+        classpath("com.avast.gradle:gradle-docker-compose-plugin:0.14.12")
+    }
+}
+
 plugins {
     id 'org.springframework.boot' version '2.6.2'
     id 'io.spring.dependency-management' version '1.0.11.RELEASE'
@@ -6,6 +16,7 @@ plugins {
     id 'idea'
 }
 
+apply plugin: 'docker-compose'
 apply from: "${rootDir}/gradle/static-code-analysis.gradle"
 
 group = 'com.shankhadeepghoshal'
@@ -36,14 +47,21 @@ ext {
 
 dependencies {
     implementation platform("software.amazon.awssdk:bom:${awsSdkBomVersion}")
-    implementation ("software.amazon.awssdk:aws-core",
-            "software.amazon.awssdk:sqs")
+    implementation ("software.amazon.awssdk:sqs")
+    // https://mvnrepository.com/artifact/io.netty/netty-tcnative-boringssl-static
+    implementation 'io.netty:netty-tcnative-boringssl-static:2.0.46.Final'
     implementation 'org.springframework.boot:spring-boot-starter'
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
 
+dockerCompose {
+    useComposeFiles = ["${rootDir}/docker-compose.yml"]
+}
+
 test {
     useJUnitPlatform()
 }
+
+dockerCompose.isRequiredBy(test)

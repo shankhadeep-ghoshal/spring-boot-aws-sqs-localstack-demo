@@ -1,0 +1,22 @@
+<Configuration>
+
+    <Appenders>
+        <Console name="CONSOLE" target="SYSTEM_OUT">
+            <PatternLayout pattern="%cyan(%d{HH:mm:ss.SSS}) %gray([%thread]) %highlight(%-5level) %magenta(%logger{36}) - %msg%n"/>
+        </Console>
+    </Appenders>
+    <Loggers>
+        <Root level="info">
+            <AppenderRef ref="CONSOLE"/>
+        </Root>
+
+        <Logger name="com.shankhadeepghoshal.springbootawssqslocalstackdemo" level="DEBUG"
+          additivity="false">
+            <Appender-ref ref="CONSOLE" level="DEBUG"/>
+        </Logger>
+
+        <Logger name="org.springframework" level="INFO" additivity="false">
+            <Appender-ref ref="CONSOLE"/>
+        </Logger>
+    </Loggers>
+</Configuration>

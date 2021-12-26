@@ -21,7 +21,6 @@ buildscript {
     }
 
     spotless {
-//        ratchetFrom 'origin/master'
         java {
             importOrder('java', 'javax', 'io.shankhadeepghoshal.springbootawssqslocalstackdemo', '')
             removeUnusedImports()
